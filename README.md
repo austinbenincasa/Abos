@@ -1,5 +1,5 @@
 # Abos
-A Basic Operating System
+A Basic Operating System for i386 systems
 
 ### Requirements
 - gcc / ld
