@@ -4,6 +4,8 @@
 #include "include/screen.h"
 #include "include/vga.h"
 #include "../libc/include/string.h"
+#include "../kernel/libk/io/port_io.h"
+
 
 static const uint16_t VGA_WIDTH = 80;
 static const uint16_t VGA_HEIGHT = 25;
@@ -28,6 +30,7 @@ void screen_init(void) {
 		}
 	}
 }
+
 
 void screen_setcolor_default(void) {
 	screen_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
@@ -83,6 +86,7 @@ void screen_putchar(char c) {
 			}
 		}
 	}
+	update_cursor(screen_column,screen_row);
 }
 
 void screen_write(const char* data, uint8_t size) {
@@ -93,4 +97,22 @@ void screen_write(const char* data, uint8_t size) {
 }
 void screen_writestring(const char* data) {
 	screen_write(data, strlen(data));
+}
+
+void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
+{
+	wportb(0x3D4, 0x0A);
+	wportb(0x3D5, (rportb(0x3D5) & 0xC0) | cursor_start);
+ 
+	wportb(0x3D4, 0x0B);
+	wportb(0x3D5, (rportb(0x3E0) & 0xE0) | cursor_end);
+}
+
+void update_cursor(int x, int y)
+{
+	uint16_t pos = y * VGA_WIDTH + x;
+	wportb(0x3D4, 0x0F);
+	wportb(0x3D5, (uint8_t) (pos & 0xFF));
+	wportb(0x3D4, 0x0E);
+	wportb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }

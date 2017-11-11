@@ -6,6 +6,8 @@
 #include <stdint.h>
 #include "vga.h"
 #include "../../libc/include/string.h"
+#include "../../kernel/libk/io/port_io.h"
+
 
 void screen_init(void);
 void screen_setcolor(uint8_t color);
@@ -14,6 +16,7 @@ void screen_putchar(char c);
 void screen_write(const char* data, uint8_t size);
 void screen_writestring(const char* data);
 void screen_setcolor_default(void);
+void enable_cursor(uint8_t cursor_start, uint8_t cursor_end);
 
 
 #endif
