@@ -31,7 +31,6 @@ void screen_init(void) {
 	}
 }
 
-
 void screen_setcolor_default(void) {
 	screen_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
 }
@@ -54,19 +53,19 @@ void screen_putchar(char c) {
 	}
 	else if(uc == '\b')
     {
-		if(--screen_column == -1)
+		//weird unsigned int compare
+		if(!(0 <= screen_column--))
 		{
-			if(--screen_row == -1)
+			if(!(0 <= screen_row--))
 			{
 				screen_putentryat(' ', screen_color, screen_column, screen_row);
-				screen_column = 0;   
+				screen_column = 0;    
 				screen_row = 0;
 			}
 			else
 			{
 				screen_putentryat(' ', screen_color, screen_column, screen_row);
-				screen_column = VGA_WIDTH;
-				--screen_row;
+				screen_column = VGA_WIDTH - 1;
 			}
 		}
 		else
@@ -86,7 +85,7 @@ void screen_putchar(char c) {
 			}
 		}
 	}
-	update_cursor(screen_column,screen_row);
+	update_cursor(screen_column, screen_row);
 }
 
 void screen_write(const char* data, uint8_t size) {
@@ -116,3 +115,26 @@ void update_cursor(int x, int y)
 	wportb(0x3D4, 0x0E);
 	wportb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }
+
+void screen_set_row(uint16_t row)
+{
+	screen_row = row;
+	update_cursor(screen_column, screen_row);
+}
+
+void screen_set_column(uint16_t col)
+{
+	screen_column = col;
+	update_cursor(screen_column, screen_row);
+}
+
+void screen_flush(void)
+{
+	for (uint16_t y = 0; y < VGA_HEIGHT; y++) {
+		for (uint16_t x = 0; x < VGA_WIDTH; x++) {
+			const uint16_t index = y * VGA_WIDTH + x;
+			screen_buffer[index] = vga_entry(' ', screen_color);
+		}
+	}
+}
+
