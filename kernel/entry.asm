@@ -1,3 +1,4 @@
+bits 32
 global loader
 global stack_ptr
 

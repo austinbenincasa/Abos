@@ -1,10 +1,9 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include "../libc/include/string.h"
 #include "include/screen.h"
-
 #include "include/vga.h"
+#include "../libc/include/string.h"
 
 static const uint16_t VGA_WIDTH = 80;
 static const uint16_t VGA_HEIGHT = 25;
@@ -12,8 +11,8 @@ static const uint16_t VGA_HEIGHT = 25;
 //start of the VGA memory space
 static uint16_t* const VGA_MEMORY = (uint16_t*) 0xB8000;
 
-static uint16_t screen_row;
-static uint16_t screen_column;
+static int16_t screen_row;
+static int16_t screen_column;
 static uint8_t screen_color;
 static uint16_t* screen_buffer;
 
@@ -30,7 +29,7 @@ void screen_init(void) {
 	}
 }
 
-void screen_setcolor_default() {
+void screen_setcolor_default(void) {
 	screen_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
 }
 
@@ -49,6 +48,28 @@ void screen_putchar(char c) {
     {
         screen_column = 0;   
         screen_row += 1;
+	}
+	else if(uc == '\b')
+    {
+		if(--screen_column == -1)
+		{
+			if(--screen_row == -1)
+			{
+				screen_putentryat(' ', screen_color, screen_column, screen_row);
+				screen_column = 0;   
+				screen_row = 0;
+			}
+			else
+			{
+				screen_putentryat(' ', screen_color, screen_column, screen_row);
+				screen_column = VGA_WIDTH;
+				--screen_row;
+			}
+		}
+		else
+		{
+			screen_putentryat(' ', screen_color, screen_column, screen_row);
+		}
 	}
 	else
 	{

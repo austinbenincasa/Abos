@@ -1,33 +1,46 @@
+#include "../libc/include/stdio.h"
 #include "../drivers/include/screen.h"
+#include "../drivers/include/keyboard.h"
 #include "../drivers/include/vga.h"
+#include "cpu/include/pic.h"
+#include "cpu/include/idt.h"
 
 
+#define K_MAJOR_VERSION "0"
+#define K_MINOR_VERSION "1"
 
-#define K_MAJOR_VERSION 0
-#define K_MINOR_VERSION 1
+extern void init_keyboard_handler(void);
 
 void boot(void)
 {
+    init_pic();
+    init_idt_pointer();
+    load_idt_pointer();
+    load_idt_entry(1, (uint32_t)init_keyboard_handler, 0x08, 0x8e);
+    keyboard_init();
     screen_init();
-    //inits everything required for the kernel
 }
 
-void boot_image(void)
+void kernal_header(void)
 {
+    printf("################################################################################\n");    
     screen_setcolor(VGA_COLOR_GREEN);
-    screen_writestring("     ___    __               \n");
-    screen_writestring("    /   |  / /__  ____  ____ \n");
-    screen_writestring("   / /| | / __  / __  / ___/ \n");
-    screen_writestring("  / ___ |/ /_/ / /_/ (__  )  \n");
-    screen_writestring(" /_/  |_/_.___/|____/____/   \n"); 
-    screen_writestring("                             \n");
+    printf("     ___    __               \n");
+    printf("    /   |  / /__  ____  ____ \n");
+    printf("   / /| | / __  / __  / ___/ \n");
+    printf("  / ___ |/ /_/ / /_/ (__  )  \n");
+    printf(" /_/  |_/_.___/|____/____/   \n"); 
+    printf("                             \n");
+    screen_setcolor(VGA_COLOR_RED);
+    printf("Version: ");
+    printf(K_MAJOR_VERSION);
+    printf(".");
+    printf(K_MINOR_VERSION);
     screen_setcolor_default();
+    printf("\n################################################################################\n");
 }
-
 int __attribute__((noreturn)) main() {
     boot();
-    screen_writestring("####################################################\n");
-    boot_image();
-    screen_writestring("####################################################\n");
+    kernal_header();
     while(1);
 }
