@@ -7,7 +7,7 @@ all: build
 
 .PHONY: build
 build: $(files)
-	@echo "Compiling Libc..."
+	@echo "Compiing Libc..."
 	@$(foreach f, $(files), \
 	gcc -c -m32 -std=c99 -ffreestanding -fno-builtin -Os -o  $(addsuffix $(basename $(notdir $f)), ../obj/).o -Wall -Wextra $f;)
 	@echo "Finished Compiling Libc"

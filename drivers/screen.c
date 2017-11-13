@@ -4,7 +4,7 @@
 #include "include/screen.h"
 #include "include/vga.h"
 #include "../libc/include/string.h"
-#include "../kernel/libk/io/port_io.h"
+#include "../kernel/io/port_io.h"
 
 
 static const uint16_t VGA_WIDTH = 80;
@@ -136,5 +136,15 @@ void screen_flush(void)
 			screen_buffer[index] = vga_entry(' ', screen_color);
 		}
 	}
+}
+
+uint16_t screen_get_row(void)
+{
+	return screen_row;
+}
+
+uint16_t screen_get_col(void)
+{
+	return screen_column;
 }
 

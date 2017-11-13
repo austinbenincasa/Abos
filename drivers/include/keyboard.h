@@ -2,7 +2,7 @@
 #define KEYBOARD_H
 
 #include "../../libc/include/stdio.h"
-#include "../../kernel/libk/io/port_io.h"
+#include "../../kernel/io/port_io.h"
 
 void keyboard_init(void);
 void keyboard_handler(void);

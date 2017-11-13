@@ -4,14 +4,14 @@ bits 32
 section .text
 
 extern keyboard_handler
-global init_keyboard_handler
+global keyboard_event
 global rportb
 global wportb
 global rportl
 global wportl
 
 ;calls keyboard handler in driver/keyboard.c
-init_keyboard_handler:
+keyboard_event:
     call keyboard_handler
     iretd
 

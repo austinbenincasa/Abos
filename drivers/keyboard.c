@@ -1,7 +1,6 @@
 #include "include/keyboard_map.h"
 #include "include/keyboard.h"
-#include "../libc/include/stdio.h"
-#include "../kernel/libk/io/port_io.h"
+#include "../kernel/io/port_io.h"
 
 extern unsigned char keyboard_map[128];
 
@@ -21,14 +20,14 @@ void keyboard_handler(void)
     /* Lowest bit of status will be set if buffer is not empty */
     if (status & 0x01) {
         keycode = rportb(0x60);
-        /* Only print characters on keydown event that have
+        /* Only alert characters on keydown event that have
          * a non-zero mapping */
         if(keycode >= 0 && keyboard_map[keycode]) {
-            //char * key = keyboard_map[keycode];
             putchar(keyboard_map[keycode]);
+            //call kernel event
         }
     }
 
     /* enable interrupts again */
     wportb(0x20, 0x20);
-}
+} 

@@ -23,7 +23,7 @@
 #define PIB_EOI 0x20
 
 #include <stdint.h>
-#include "../../libk/io/port_io.h"
+#include "../../io/port_io.h"
 
 static inline void init_pic(void)
 {
