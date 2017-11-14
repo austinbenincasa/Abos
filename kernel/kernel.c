@@ -5,6 +5,7 @@
 #include "../terminal/terminal.h"
 #include "cpu/include/pic.h"
 #include "cpu/include/idt.h"
+#include "cpu/include/gdt.h"
 
 
 #define K_MAJOR_VERSION "0"
@@ -15,6 +16,7 @@ extern void keyboard_event(void);
 void boot(void)
 {
     init_pic();
+    init_gdt();
     idt_init_pointer();
     idt_load_table();
     idt_load_entry(1, (uint32_t)keyboard_event, 0x08, 0x8e);
