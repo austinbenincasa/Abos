@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "vga.h"
-#include "../../libc/include/string.h"
+#include <string.h>
 #include "../../kernel/io/port_io.h"
 
 

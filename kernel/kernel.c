@@ -1,4 +1,4 @@
-#include "../libc/include/stdio.h"
+#include <stdio.h>
 #include "../drivers/include/screen.h"
 #include "../drivers/include/keyboard.h"
 #include "../drivers/include/vga.h"

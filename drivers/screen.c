@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include "include/screen.h"
 #include "include/vga.h"
-#include "../libc/include/string.h"
+#include <string.h>
 #include "../kernel/io/port_io.h"
 
 

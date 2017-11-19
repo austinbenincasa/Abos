@@ -1,24 +1,32 @@
 include Makefile.inc
 
-.PHONY: drivers libc terminal kernel clean all
+.PHONY: all
 
-all: obj/ drivers libc terminal kernel
+all: kernel.elf
 
-obj/:
-	@mkdir -p obj/
+FILES:=$(shell find . -type f -name '*.c')
+OBJS:=$(patsubst ./%.c,obj/%.o,$(FILES))
+FILES_2:=$(shell find . -type f -name '*.asm')
+OBJS_2:=$(patsubst ./%.asm,obj/%.o,$(FILES_2))
+FILES:=$(FILES) $(FILES_2)
+OBJS:=$(OBJS) $(OBJS_2)
 
-drivers:
-	$(MAKE) -C drivers/
+obj/%.o: ./%.asm
+	@echo "Assembling\t$^..."
+	@mkdir -p $(@D)
+	@$(ASM) $(ASM_ARGS) $^ -o $@
 
-libc:
-	$(MAKE) -C libc/
+obj/%.o: ./%.c
+	@echo "Compiling\t$^..."
+	@mkdir -p $(@D)
+	@$(CC) -c $(CC_ARGS) -o $@ $^
 
-terminal:
-	$(MAKE) -C terminal/
 
-kernel:
-	$(MAKE) -C kernel/
+kernel.elf: $(OBJS)
+	@echo "Linking Kernel..."
+	@ld -m elf_i386 -nostdlib -T kernel/linker.ld -o $@ $^
+	@echo "Finished Linking Kernel"
+	@echo "Successfully created kernel.elf"
 
 clean:
-	rm -rf obj/
-	$(MAKE) -C kernel/ clean
+	rm -rf obj/ kernel.elf
