@@ -1,10 +1,9 @@
 dirs := cpu/
 files := $(foreach dir,$(dirs),$(wildcard $(dir)*.c))
 
-.PHONY: all
+.PHONY: all build link clean
 all: $(files) build link
 
-.PHONY: build
 build: $(files)
 	@echo "Compiling Kernel..."
 	@nasm -f elf32 entry.asm -o '../obj/entry.o'
@@ -15,12 +14,11 @@ build: $(files)
 	@gcc -c -m32 -std=c99 -ffreestanding -fno-builtin -Os -o '../obj/kernel.o' -Wall -Wextra kernel.c
 	@echo "Finished Compiling Kernel"
 
-.PHONY: link
 link: linker.ld
 	@echo "Linking Kernel..."
-	@ld -m elf_i386 -nostdlib -T linker.ld -o '../kernel.elf' ../obj/*.o
+	@ld -m elf_i386 -nostdlib -T linker.ld -o '../kernel.elf' ../obj/*.o ../obj/*/*.o
 	@echo "Finished Linking Kernel"
 	@echo "Successfully created kernel.elf"
-.PHONY: clean
+
 clean:
-	@rm -rf ../obj
+	@echo "Kernel:\tCleaning..."

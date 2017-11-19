@@ -1,13 +1,15 @@
-dirs := string/ stdio/ stdlib/
-files := $(foreach dir,$(dirs),$(wildcard $(dir)*.c))
+OBJ_DIR?=../obj
+CC?=gcc
+CC_ARGS?=-m32 -std=c99 -ffreestanding -fno-builtin -Os -Wall -Wextra
 
+DIRS:=string/ stdio/ stdlib/
+FILES:=$(foreach dir,$(DIRS),$(wildcard $(dir)*.c))
+OBJS:=$(patsubst %.c,$(OBJ_DIR)/%.o,$(FILES))
 
 .PHONY: all
-all: build
+all: $(OBJS)
 
-.PHONY: build
-build: $(files)
-	@echo "Compiing Libc..."
-	@$(foreach f, $(files), \
-	gcc -c -m32 -std=c99 -ffreestanding -fno-builtin -Os -o  $(addsuffix $(basename $(notdir $f)), ../obj/).o -Wall -Wextra $f;)
-	@echo "Finished Compiling Libc"
+$(OBJ_DIR)/%.o: %.c
+	@echo "Libc:\tCompiling $<..."
+	@mkdir -p $(@D)
+	@$(CC) -c $(CC_ARGS) -o $@ $<

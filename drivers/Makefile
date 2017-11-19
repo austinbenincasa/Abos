@@ -1,9 +1,14 @@
-.PHONY: all
-all: build
+OBJ_DIR?=../obj
+CC?=gcc
+CC_ARGS?=-m32 -std=c99 -ffreestanding -fno-builtin -Os -Wall -Wextra
 
-.PHONY: build
-build:
-	@echo "Compiling Drivers..."
-	@gcc -c -m32 -std=c99 -ffreestanding -fno-builtin -Os -o '../obj/screen.o' -Wall -Wextra screen.c
-	@gcc -c -m32 -std=c99 -ffreestanding -fno-builtin -Os -o '../obj/keyboard.o' -Wall -Wextra keyboard.c
-	@echo "Finished Compiling Drivers"
+FILES:=$(wildcard *.c)
+OBJS:=$(patsubst %.c,$(OBJ_DIR)/%.o,$(FILES))
+FILES:=$(patsubst %,../drivers/%,$(FILES))
+
+.PHONY: all
+all: $(OBJS)
+
+$(OBJ_DIR)/%.o: %.c
+	@echo "Drivers:\tCompiling $<..."
+	@$(CC) -c $(CC_ARGS) -o $@ $<
