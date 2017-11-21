@@ -6,10 +6,11 @@ A Basic Operating System for i386 systems
 - qemu
 - nasm
 - build-essentials
+- Make
 
 ### Building Kernel
 ```bash
-austin@computer:~/Abos$ ./build
+austin@computer:~/Abos$ make
 ```
 ### Booting Kernel
 ```bash
