@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "terminal.h"
-#include "../libc/include/stdio.h"
+#include <stdio.h>
 
 
 static uint16_t start_row;

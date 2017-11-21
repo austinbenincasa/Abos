@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "../libc/include/stdio.h"
+#include <stdio.h>
 
 void init_terminal(uint16_t row);
 void terminal_loop(void);
