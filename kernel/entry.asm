@@ -2,7 +2,7 @@ bits 32
 global loader
 global stack_ptr
 
-extern main
+extern kmain
 
 MODULEALIGN equ 1<<0
 MEMINFO equ 1<<1
@@ -26,7 +26,7 @@ loader:
   push eax
   push ebx
 
-  call main
+  call kmain
 
   cli
 

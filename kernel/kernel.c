@@ -6,20 +6,24 @@
 #include "cpu/include/pic.h"
 #include "cpu/include/idt.h"
 #include "cpu/include/gdt.h"
+#include "cpu/include/irs.h"
+#include "cpu/include/irq.h"
+
+
 
 
 #define K_MAJOR_VERSION "0"
 #define K_MINOR_VERSION "1"
 
-extern void keyboard_event(void);
+extern void keyboard_handler();
 
 void boot(void)
-{
-    init_pic();
+{   
     init_gdt();
-    idt_init_pointer();
+    init_pic();
     idt_load_table();
-    idt_load_entry(1, (uint32_t)keyboard_event, 0x08, 0x8e);
+    isrs_install();
+    irqs_install();
     keyboard_init();
     screen_init();
 }
@@ -44,7 +48,7 @@ void kernal_header(void)
     printf("\n################################################################################\n");
     screen_setcolor_default();
 }
-int __attribute__((noreturn)) main() {
+int __attribute__((noreturn)) kmain() {
     boot();
     kernal_header();
     init_terminal(screen_get_row());

@@ -2,7 +2,6 @@
 #define IDT_H
 
 #include <stdint.h>
-#include "pic.h"
 #include "../../io/port_io.h"
 
 #define IDT_SIZE 256
@@ -34,7 +33,7 @@ static inline void idt_init_pointer(void)
 }
 
 static inline void idt_load_entry(uint8_t irq, uint32_t handler, uint16_t selector, uint8_t type_attr) {
-    uint8_t int_num = PIC_OFFSET + irq;
+    uint8_t int_num = 0x20 + irq;
     IDT[int_num].offset_lowerbits = handler & 0xffff;
 	IDT[int_num].selector = selector; 
 	IDT[int_num].zero = 0;
@@ -45,6 +44,7 @@ static inline void idt_load_entry(uint8_t irq, uint32_t handler, uint16_t select
 static inline void idt_load_table(void)
 {
 	//external call to kernel/idt.asm
+	idt_init_pointer();
 	load_idt(&IDT_PTR);
 }
 #endif

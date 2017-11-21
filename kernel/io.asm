@@ -1,19 +1,12 @@
-;; This is for reading IO ports
-
+; This is for reading IO ports
 bits 32
 section .text
 
-extern keyboard_handler
-global keyboard_event
 global rportb
 global wportb
 global rportl
 global wportl
 
-;calls keyboard handler in driver/keyboard.c
-keyboard_event:
-    call keyboard_handler
-    iretd
 
 rportb:
     mov edx, [esp + 4]

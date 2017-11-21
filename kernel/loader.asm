@@ -1,3 +1,4 @@
+bits 32
 section .text
 
 
@@ -14,7 +15,7 @@ load_idt:
 load_gdt:
     lgdt [GDT_ENTRY_PTR]
     mov ax, 0x10
-    jmp 0x8:reload_cs
+    jmp 0x08:reload_cs
 
 reload_cs:
     mov ds, ax
