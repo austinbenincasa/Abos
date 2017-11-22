@@ -4,9 +4,9 @@
 #include "../include/stdio.h"
 #include "../include/string.h"
 
-static bool print(const char* data, size_t length) {
+static bool print(const char* data, uint16_t length) {
 	const unsigned char* bytes = (const unsigned char*) data;
-	for (size_t i = 0; i < length; i++)
+	for (uint16_t i = 0; i < length; i++)
 		if (putchar(bytes[i]) == EOF)
 			return false;
 	return true;
@@ -19,12 +19,12 @@ int printf(const char* restrict format, ...) {
 	int written = 0;
 
 	while (*format != '\0') {
-		size_t maxrem = INT_MAX - written;
+		uint16_t maxrem = INT_MAX - written;
 
 		if (format[0] != '%' || format[1] == '%') {
 			if (format[0] == '%')
 				format++;
-			size_t amount = 1;
+			uint16_t amount = 1;
 			while (format[amount] && format[amount] != '%')
 				amount++;
 			if (maxrem < amount) {
@@ -53,7 +53,7 @@ int printf(const char* restrict format, ...) {
 		} else if (*format == 's') {
 			format++;
 			const char* str = va_arg(parameters, const char*);
-			size_t len = strlen(str);
+			uint16_t len = strlen(str);
 			if (maxrem < len) {
 				// TODO: Set errno to EOVERFLOW.
 				return -1;
@@ -63,7 +63,7 @@ int printf(const char* restrict format, ...) {
 			written += len;
 		} else {
 			format = format_begun_at;
-			size_t len = strlen(format);
+			uint16_t len = strlen(format);
 			if (maxrem < len) {
 				// TODO: Set errno to EOVERFLOW.
 				return -1;

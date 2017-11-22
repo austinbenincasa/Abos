@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include "include/gdt.h"
+#include "../../libc/include/string.h"
 
 extern void load_gdt();
-
 
 void set_gdt_entry(uint16_t loc, uint32_t base, uint32_t limit, uint8_t access, uint8_t flags) {
     GDT[loc].base_low = (base & 0xFFFF);
@@ -26,9 +26,8 @@ void init_gdt(){
 
     GDT_ENTRY_PTR.size = (sizeof(struct GDT_ENTRY) * GDT_SIZE) - 1;
     GDT_ENTRY_PTR.base = (uint32_t)(&GDT);
-
     set_gdt_entry(0, 0, 0, 0, 0);
-    set_gdt_entry(1, 0, 0xFFFFFFFF, GDT_RING_0 | GDT_EXEC | GDT_EXEC_READABLE, GDT_GRAN_4KB | GDT_SIZE_32);
-    set_gdt_entry(2, 0, 0xFFFFFFFF, GDT_RING_0 | GDT_DATA | GDT_DATA_WRITEABLE, GDT_GRAN_4KB | GDT_SIZE_32);
-
+    set_gdt_entry(1, 0, 0xFFFFFFFF, 0x9A, 0xCF);
+    set_gdt_entry(2, 0, 0xFFFFFFFF, 0x92, 0xCF);
+    load_gdt();
 }

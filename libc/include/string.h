@@ -1,16 +1,16 @@
-#ifndef _STRING_H
-#define _STRING_H 1
+#ifndef STRING_H
+#define STRING_H
 
 #include "sys/cdefs.h"
-
+#include <stdint.h>
 #include <stddef.h>
 
 
-int memcmp(const void*, const void*, size_t);
-void* memcpy(void* __restrict, const void* __restrict, size_t);
-void* memmove(void*, const void*, size_t);
-void* memset(void*, int, size_t);
-size_t strlen(const char*);
+int memcmp(const void*, const void*, uint16_t);
+void* memcpy(void* __restrict, const void* __restrict, uint16_t);
+void* memmove(void*, const void*, uint16_t);
+void* memset(void*, int, uint16_t);
+uint16_t strlen(const char*);
 
 
 #endif

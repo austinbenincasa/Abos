@@ -1,8 +1,6 @@
-#ifndef ISR_H
-#define ISR_H
-
-#include "idt.h"
-#include "../../interrupt/include/interrupt.h"
+#include "include/isr.h"
+#include "include/idt.h"
+#include "../interrupt/include/interrupt.h"
 
 
 extern void isr0();
@@ -38,7 +36,7 @@ extern void isr29();
 extern void isr30();
 extern void isr31();
 
-void *irs_handlers[32] =
+void *isr_handlers[32] =
 {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -47,18 +45,18 @@ void *irs_handlers[32] =
 };
 
 //installs a irq handler
-static void irs_install_handler(int irs, void (*handler)(struct interrupt_struct *state))
+void isr_install_handler(int isr, void (*handler)(struct interrupt_struct *state))
 {
-    irs_handlers[irs] = handler;
+    isr_handlers[isr] = handler;
 }
 
 //uninstalled a irq handler
-static void irs_uninstall_handler(int irs)
+void isr_uninstall_handler(int isr)
 {
-    irs_handlers[irs] = 0;
+    isr_handlers[isr] = 0;
 }
 
-static void isrs_install(void)
+void isrs_install()
 {
     //load intel interrupts
     idt_load_entry(0, (unsigned)isr0, 0x08, 0x8E);
@@ -94,5 +92,3 @@ static void isrs_install(void)
     idt_load_entry(30, (unsigned)isr30, 0x08, 0x8E);
     idt_load_entry(31, (unsigned)isr31, 0x08, 0x8E);
 }
-
-#endif
