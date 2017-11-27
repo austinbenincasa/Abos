@@ -3,6 +3,7 @@
 
 #include "libc/sys/cdefs.h"
 #include <stddef.h>
+#include <stdint.h>
 
 
 int memcmp(const void*, const void*, uint16_t);
