@@ -7,15 +7,13 @@
 void interrupt_handler(struct interrupt_struct *state)
 {   
 
-    void (*handler)(struct interrupt_struct *state);
+    //void (*handler)(struct interrupt_struct *state);
 
     if (state->error.int_no < 31)
     {
-        //Not handling faults yet
-        //keyboard_handler();
         printf(exception_messages[state->error.int_no]);
         printf(" Exception. System Halted!\n");
-        //for (;;);
+        for (;;);
     }
     if (state->error.int_no == 33)
     {

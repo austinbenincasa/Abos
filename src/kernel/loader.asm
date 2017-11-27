@@ -3,13 +3,13 @@ section .text
 
 
 extern GDT_ENTRY_PTR
+extern IDT_PTR
 global load_idt
 global load_gdt
 
 load_idt:
-	mov edx, [esp + 4]
-	lidt [edx]
-	sti
+	lidt [IDT_PTR]
+    sti
 	ret
 
 load_gdt:

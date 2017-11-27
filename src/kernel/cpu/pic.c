@@ -26,6 +26,10 @@
 
 void init_pic()
 {
+    unsigned char a1, a2;
+ 
+	a1 = rportb(PIC1_DATA);                        // save masks
+	a2 = rportb(PIC2_DATA);
     /* ICW1 - begin initialization */
     wportb(PIC1_COM, 0x11);
     wportb(PIC2_COM, 0x11);
@@ -46,4 +50,7 @@ void init_pic()
     wportb(PIC1_DATA, 0x01);
     wportb(PIC2_DATA, 0x01);
     /* Initialization finished */
+    
+    //wportb(PIC1_DATA, a1);
+    //wportb(PIC2_DATA, a2);
 }

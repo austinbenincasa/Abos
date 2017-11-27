@@ -24,7 +24,6 @@ void keyboard_handler(void)
          * a non-zero mapping */
         if(keycode >= 0 && keyboard_map[keycode]) {
             putchar(keyboard_map[keycode]);
-            //call kernel event
         }
     }
 

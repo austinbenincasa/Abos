@@ -16,7 +16,7 @@ extern void keyboard_handler();
 
 void boot(void)
 {   
-    //init_gdt();
+    init_gdt();
     init_pic();
     idt_load_table();
     isrs_install();

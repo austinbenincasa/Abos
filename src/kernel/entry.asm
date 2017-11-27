@@ -23,12 +23,8 @@ STACKSIZE equ 0x4000
 
 loader:
   mov esp, stack+STACKSIZE
-  push eax
-  push ebx
-
-  call kmain
-
   cli
+  call kmain
 
 hang:
   hlt
