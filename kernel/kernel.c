@@ -6,7 +6,7 @@
 #include "cpu/include/pic.h"
 #include "cpu/include/idt.h"
 #include "cpu/include/gdt.h"
-#include "cpu/include/irs.h"
+#include "cpu/include/isr.h"
 #include "cpu/include/irq.h"
 
 
