@@ -1,6 +1,6 @@
 #include <stdint.h>
-#include "include/pic.h"
-#include "../io/port_io.h"
+#include <kernel/cpu/pic.h>
+#include <kernel/io/port_io.h>
 
 
 // Master PIC

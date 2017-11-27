@@ -6,7 +6,7 @@
 #include <kernel/cpu/pic.h>
 #include <kernel/cpu/idt.h>
 #include <kernel/cpu/gdt.h>
-#include <kernel/cpu/irs.h>
+#include <kernel/cpu/isr.h>
 #include <kernel/cpu/irq.h>
 
 #define K_MAJOR_VERSION "0"
@@ -16,7 +16,7 @@ extern void keyboard_handler();
 
 void boot(void)
 {   
-    init_gdt();
+    //init_gdt();
     init_pic();
     idt_load_table();
     isrs_install();

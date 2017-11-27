@@ -25,32 +25,6 @@
 #include <stdint.h>
 #include <kernel/io/port_io.h>
 
-static inline void init_pic(void)
-{
-    /* ICW1 - begin initialization */
-    wportb(PIC1_COM, 0x11);
-    wportb(PIC2_COM, 0x11);
-
-    /* ICW2 - remap offset address of idt_table */
-    /*
-    * In x86 protected mode, we have to remap the PICs beyond 0x20 because
-    * Intel have designated the first 32 interrupts as "reserved" for cpu exceptions
-    */
-    wportb(PIC1_DATA, 0x20);
-    wportb(PIC2_DATA, 0x28);
-
-    /* ICW3 - setup cascading */
-    wportb(PIC1_DATA, 0x00);
-    wportb(PIC2_DATA, 0x00);
-
-    /* ICW4 - environment info */
-    wportb(PIC1_DATA, 0x01);
-    wportb(PIC2_DATA, 0x01);
-    /* Initialization finished */
-
-    /* mask interrupts */
-    wportb(0x21 , 0xff);
-    wportb(0xA1 , 0xff);
-}
+void init_pic(void);
 
 #endif

@@ -1,6 +1,6 @@
-#include "include/isr.h"
-#include "include/idt.h"
-#include "../interrupt/include/interrupt.h"
+#include <kernel/cpu/isr.h>
+#include <kernel/cpu/idt.h>
+#include <kernel/interrupt/interrupt.h>
 
 
 extern void isr0();

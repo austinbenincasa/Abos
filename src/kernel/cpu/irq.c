@@ -1,6 +1,6 @@
-#include "include/irq.h"
-#include "include/idt.h"
-#include "../interrupt/include/interrupt.h"
+#include <kernel/cpu/irq.h>
+#include <kernel/cpu/idt.h>
+#include <kernel/interrupt/interrupt.h>
 
 
 extern void irq0();

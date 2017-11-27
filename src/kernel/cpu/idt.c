@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "include/idt.h"
+#include <kernel/cpu/idt.h>
 
 
 extern void load_idt();
