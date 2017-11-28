@@ -70,7 +70,6 @@ struct interrupt_struct
     struct stack_state stack;
 }__attribute__((packed));
 
-//void interrupt_handler(struct stack_state *stack, struct interrupt_error *err, struct cpu_state *cpu, struct segments *seg);
 void interrupt_handler(struct interrupt_struct *state);
 
 

@@ -20,8 +20,6 @@ extern void irq13();
 extern void irq14();
 extern void irq15();
 
-
-//holds function pointers to the irq handlers
 void *irq_handlers[16] =
 {
     0, 0, 0, 0, 0, 0, 0, 0,
@@ -29,7 +27,7 @@ void *irq_handlers[16] =
 };
 
 //installs a irq handler
-void irq_install_handler(int irq, void (*handler)(struct interrupt_struct *state))
+void irq_install_handler(int irq, void (* handler)(struct interrupt_struct *state))
 {
     irq_handlers[irq] = handler;
 }

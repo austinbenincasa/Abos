@@ -44,13 +44,13 @@ void *isr_handlers[32] =
     0, 0, 0, 0, 0, 0, 0, 0
 };
 
-//installs a irq handler
+//installs a isr handler
 void isr_install_handler(int isr, void (*handler)(struct interrupt_struct *state))
 {
     isr_handlers[isr] = handler;
 }
 
-//uninstalled a irq handler
+//uninstalled a isr handler
 void isr_uninstall_handler(int isr)
 {
     isr_handlers[isr] = 0;

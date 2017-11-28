@@ -5,6 +5,6 @@
 #include <kernel/io/port_io.h>
 
 void keyboard_init(void);
-void keyboard_handler(void);
+unsigned char keyboard_handler(void);
 
 #endif
