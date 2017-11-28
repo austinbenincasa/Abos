@@ -15,8 +15,8 @@ void interrupt_handler(struct interrupt_struct *state)
 
     if (state->error.int_no < 31)
     {
-        int irq = state->error.int_no;
-        handler = irq_handlers[irq];
+        int isr = state->error.int_no;
+        handler = isr_handlers[isr];
         if (handler)
         {
             handler(state);

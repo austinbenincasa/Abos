@@ -5,6 +5,7 @@
 #include <kernel/interrupt/interrupt.h>
 #include <libc/stdio.h>
 #include <drivers/keyboard.h>
+#include <drivers/vga.h>
 
 
 
@@ -12,13 +13,34 @@ static uint16_t start_row;
 static uint16_t current_col;
 static int input_buff_index = 0;
 static unsigned char input_buff[250];
-int enter = 1;
 
-void init_terminal(uint16_t row)
+void init_terminal()
 {
     irq_install_handler(1, keyboard_input);
-    start_row = row;
+    start_row = screen_get_row();
+    terminal_header();
     terminal_prompt();
+}
+
+void terminal_header(void)
+{
+    screen_setcolor(VGA_COLOR_DARK_GREY);
+    printf("################################################################################\n");    
+    screen_setcolor(VGA_COLOR_GREEN);
+    printf("     ___    __               \n");
+    printf("    /   |  / /__  ____  ____ \n");
+    printf("   / /| | / __  / __  / ___/ \n");
+    printf("  / ___ |/ /_/ / /_/ (__  )  \n");
+    printf(" /_/  |_/_.___/|____/____/   \n"); 
+    printf("                             \n");
+    screen_setcolor(VGA_COLOR_RED);
+    printf("Version: ");
+    printf(K_MAJOR_VERSION);
+    printf(".");
+    printf(K_MINOR_VERSION);
+    screen_setcolor(VGA_COLOR_DARK_GREY);
+    printf("\n################################################################################\n");
+    screen_setcolor_default();
 }
 
 void terminal_prompt(void)

@@ -3,12 +3,6 @@
 #include <kernel/io/port_io.h>
 
 
-#define PIC1_COM 0x20
-#define PIC1_DATA 0x21
-
-#define PIB_EOI 0x20
-
-
 void init_pic()
 {
  
@@ -21,7 +15,7 @@ void init_pic()
     wportb(PIC1_DATA, 0x04);
     wportb(PIC2_DATA, 0x02);
 
-    wportb(PIC1_DATA, 0x01);
-    wportb(PIC2_DATA, 0x01);
+    //wportb(PIC1_DATA, 0x00);
+    //wportb(PIC2_DATA, 0x00);
     
 }
