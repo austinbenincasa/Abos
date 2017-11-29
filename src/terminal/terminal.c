@@ -76,10 +76,5 @@ void keyboard_input(struct interrupt_struct *state)
 
 void run_command(void)
 {
-    for(int i = 0; i < input_buff_index; i++)
-    {
-        putchar(input_buff[i]);
-    }
-    input_buff_index = 0;
-    printf("\n");
+
 }

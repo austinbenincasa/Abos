@@ -49,7 +49,12 @@ void screen_putchar(char c) {
 	if(uc == '\n')
     {
         screen_column = 0;   
-        screen_row += 1;
+		screen_row += 1;
+		if(screen_row == VGA_HEIGHT)
+		{
+			screen_row = 24;
+			screen_scroll();
+		}
 	}
 	else if(uc == '\b')
     {
@@ -81,7 +86,8 @@ void screen_putchar(char c) {
 			screen_column = 0;
 			if (++screen_row == VGA_HEIGHT)
 			{
-				screen_row = 0;
+				screen_row = 24;
+				screen_scroll();
 			}
 		}
 	}
@@ -135,6 +141,25 @@ void screen_flush(void)
 			const uint16_t index = y * VGA_WIDTH + x;
 			screen_buffer[index] = vga_entry(' ', screen_color);
 		}
+	}
+}
+
+void screen_scroll(void)
+{
+	uint16_t row;
+	for (uint16_t y = 0; y < VGA_HEIGHT; y++) {
+		row = y + 1;
+		for (uint16_t x = 0; x < VGA_WIDTH; x++)
+		{
+			const uint16_t top_index = y * VGA_WIDTH + x;
+			const uint16_t bottom_index = row * VGA_WIDTH + x;
+			screen_buffer[top_index] = screen_buffer[bottom_index];
+		}
+	}
+	for (uint16_t x = 0; x < VGA_WIDTH; x++)
+	{
+		const uint16_t index = VGA_HEIGHT * VGA_WIDTH + x;
+		screen_buffer[index] = vga_entry(' ', screen_color);	
 	}
 }
 
