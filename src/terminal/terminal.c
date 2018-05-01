@@ -8,16 +8,12 @@
 #include <drivers/vga.h>
 
 
-
-static uint16_t start_row;
-static uint16_t current_col;
 static int input_buff_index = 0;
 static unsigned char input_buff[250];
 
 void init_terminal()
 {
     irq_install_handler(1, keyboard_input);
-    start_row = screen_get_row();
     terminal_header();
     terminal_prompt();
 }
@@ -64,6 +60,7 @@ void keyboard_input(struct interrupt_struct *state)
         putchar(key);
         run_command();
         terminal_prompt();
+        input_buff_index = 0;
     }
     else if(key != 0)
     {
@@ -77,4 +74,7 @@ void keyboard_input(struct interrupt_struct *state)
 void run_command(void)
 {
 
+    printf(input_buff);
+    printf("\n");
+    
 }
